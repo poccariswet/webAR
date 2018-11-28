@@ -10,13 +10,13 @@
         <!-- AR.jsライブラリ読み込み -->
         <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
         <!-- AFrameにAR.js紐付け -->
-        <a-scene embedded arjs="debugUIEnabled:false;">
+        <a-scene embedded arjs="sourceType: webcam">
             <!-- 3Dモデルの用意 -->
             <a-assets>
                 <!-- 3Dモデル -->
-                <a-asset-item id="3DModel" src="assets/poly.obj"></a-asset-item>
+                <a-asset-item id="3DModel" src="model__0.obj"></a-asset-item>
                 <!-- マテリアル -->
-                <a-asset-item id="Material" src="assets/poly.mtl"></a-asset-item>
+                <a-asset-item id="Material" src="model__0.mtl"></a-asset-item>
             </a-assets>
             <!-- マーカー登録(デフォルトで用意されている『Hiro』マーカー) -->
             <a-marker preset="hiro">
