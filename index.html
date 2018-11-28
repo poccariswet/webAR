@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,intial-scale=1">
+        <title>WebAR</title>
+    </head>
+    <body style="margin:0px; overflow:hidden;">
+        <!-- AFrameライブラリ読み込み -->
+        <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+        <!-- AR.jsライブラリ読み込み -->
+        <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+        <!-- AFrameにAR.js紐付け -->
+        <a-scene embedded arjs="debugUIEnabled:false;">
+            <!-- 3Dモデルの用意 -->
+            <a-assets>
+                <!-- 3Dモデル -->
+                <a-asset-item id="3DModel" src="assets/poly.obj"></a-asset-item>
+                <!-- マテリアル -->
+                <a-asset-item id="Material" src="assets/poly.mtl"></a-asset-item>
+            </a-assets>
+            <!-- マーカー登録(デフォルトで用意されている『Hiro』マーカー) -->
+            <a-marker preset="hiro">
+                <!-- マーカーの位置に3Dモデルを配置 サイズと場所を指定-->
+                <a-obj-model src="#3DModel"
+                             mtl="#Material"
+                             scale="0.005 0.005 0.005"
+                             position="0 0.5 0">
+                </a-obj-model>
+            </a-marker>
+            <!-- AR用のカメラ配置 -->
+            <a-entity camera></a-entity>
+        </a-scene>
+    </body>
+</html>
