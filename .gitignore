@@ -1,2 +1,7 @@
 assets/
+
+*.mtl
+*.obj
+*.png
+
 .DS_Store

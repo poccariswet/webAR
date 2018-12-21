@@ -1,19 +1,63 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,intial-scale=1">
-        <title>WebAR</title>
-    </head>
-    <body style="margin:0px; overflow:hidden;">
-        <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
-        <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+  <head>
+    <meta charset="utf-8">
+    <title>webAR demo</title>
+    <meta name="description" content="360&deg; Image Gallery - A-Frame">
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-template-component@3.1.1"></script>
+    <script src="./set-image.js"></script>
+    <script src="./set-entity.js"></script>
+    <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <a-asset-item id="human" src="./FinalBaseMesh.gltf"></a-asset-item>
+        <a-asset-item id="human-male" src="./male02.gltf"></a-asset-item>
 
-        <a-scene embedded arjs="debugUIEnabled:false; sourceType: webcam;" vr-mode-ui="enabled: false">
-            <a-marker preset="custom" type='pattern' url="my-icon-marker.patt">
-              <a-text value="My name is soeyu!\n Nice to meet you!" position=" 0 0 1" align="center" rotation="-90 0 0" color="#7993ff">
-              </a-text>
-            </a-marker>
-            <a-entity camera></a-entity>
-        </a-scene>
-    </body>
+        <img id="city-thumb" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
+        <img id="cubes-thumb" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-cubes.jpg">
+        <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
+
+        <!-- Image link template to be reused. -->
+        <script id="link" type="text/html">
+          <a-entity class="link"
+            geometry="primitive: plane; height: 1; width: 1"
+            material="shader: flat; src: ${thumb}"
+            event-set__1="_event: mousedown; scale: 1 1 1"
+            event-set__2="_event: mouseup; scale: 1.2 1.2 1"
+            event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
+            event-set__4="_event: mouseleave; scale: 1 1 1"
+            set-image="on: click; target: #human-model; src: ${src}"
+            set-entity="on: click; target: #model-entity; scale: ${scale}"
+            sound="on: click; src: #click-sound"></a-entity>
+        </script>
+      </a-assets>
+
+      <a-entity id="model-entity" scale="0.05 0.05 0.05" position="-0.5 -1 -4">
+        <a-gltf-model id="human-model" src="#human"></a-gltf-model>
+      </a-entity>
+
+      <!-- Image links. -->
+      <a-entity id="links" layout="type: line; margin: 3" position="-2 -1 -4">
+        <a-entity template="src: #link" data-src="#human" data-scale="0.05 0.05 0.05" data-thumb="#city-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#human-male" data-scale="0.005 0.005 0.005" data-thumb="#cubes-thumb"></a-entity>
+      </a-entity>
+
+      <!-- Camera + cursor. -->
+      <a-entity camera look-controls>
+        <a-cursor id="cursor"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          event-set__1="_event: mouseenter; color: springgreen"
+          event-set__2="_event: mouseleave; color: black"
+          fuse="true"
+          raycaster="objects: .link"></a-cursor>
+      </a-entity>
+    </a-scene>
+  </body>
 </html>
